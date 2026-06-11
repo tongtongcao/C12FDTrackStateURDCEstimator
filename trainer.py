@@ -264,13 +264,13 @@ class TrackTransformer(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         x, y, mask = batch
         loss = self.loss_fn(self(x, mask), y)
-        self.log("train_loss", loss)
+        self.log("train_loss", loss, on_step=False, on_epoch=True, prog_bar=True)
         return loss
 
     def validation_step(self, batch, batch_idx):
         x, y, mask = batch
         loss = self.loss_fn(self(x, mask), y)
-        self.log("val_loss", loss)
+        self.log("val_loss", loss, on_step=False, on_epoch=True, prog_bar=True)
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.lr)
